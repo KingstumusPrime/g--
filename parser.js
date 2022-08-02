@@ -34,11 +34,16 @@ class Parser {
         switch(this._lookahead.type) {
             case '{':
                  return this.BlockStatement()
+            case ';':
+                return this.EmptyStatement()
             default:
                 return this.ExpressionStatement()
         }
     }
-
+    EmptyStatement() {
+        this._eat(';')
+        return {type: 'EmptyStatement'}
+    }
     BlockStatement() {
         this._eat('{')
 
