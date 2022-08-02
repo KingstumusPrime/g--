@@ -1,7 +1,7 @@
 module.exports = test => {
     test(`
     {
-       hello;
+       "hello";
        42;
     }
     `,
