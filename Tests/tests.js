@@ -5,7 +5,8 @@ const {Parser} = require('../parser')
 const parser = new Parser()
 const tests = [require("./literals-test"),
                 require("./statement-list-text"),
-                require("./block-test")]
+                require("./block-test"),
+                require("./math-tests")]
 function exec() {
     const program = `
     "hello";
