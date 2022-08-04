@@ -71,12 +71,12 @@ class Parser {
     }
 
     AdditiveExpression() {
-        let left = this.Literal();
+        let left = this.MultiplicativeExpression();
         
         while(this._lookahead.type === 'ADDITIVE_OPERATOR') {
             const operator = this._eat('ADDITIVE_OPERATOR').value
 
-            const right = this.Literal()
+            const right = this.MultiplicativeExpression()
 
             left = {
                 type: 'BinaryExpression',
@@ -89,6 +89,31 @@ class Parser {
 
         return left
     }
+
+    MultiplicativeExpression() {
+        let left = this.PrimaryExpression();
+        
+        while(this._lookahead.type === 'MULTIPLICATIVE_OPERATOR') {
+            const operator = this._eat('MULTIPLICATIVE_OPERATOR').value
+
+            const right = this.PrimaryExpression()
+
+            left = {
+                type: 'BinaryExpression',
+                operator,
+                left,
+                right
+            }
+        }
+
+
+        return left
+    }
+
+    PrimaryExpression() {
+        return this.Literal()
+    }
+
     Literal() {
         switch(this._lookahead.type) {
             case 'NUMBER':
