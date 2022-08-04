@@ -71,32 +71,26 @@ class Parser {
     }
 
     AdditiveExpression() {
-        let left = this.MultiplicativeExpression();
-        
-        while(this._lookahead.type === 'ADDITIVE_OPERATOR') {
-            const operator = this._eat('ADDITIVE_OPERATOR').value
-
-            const right = this.MultiplicativeExpression()
-
-            left = {
-                type: 'BinaryExpression',
-                operator,
-                left,
-                right
-            }
-        }
-
-
-        return left
+        return this._BinaryExpression(
+            'MultiplicativeExpression',
+            'ADDITIVE_OPERATOR'
+        )
     }
 
     MultiplicativeExpression() {
-        let left = this.PrimaryExpression();
-        
-        while(this._lookahead.type === 'MULTIPLICATIVE_OPERATOR') {
-            const operator = this._eat('MULTIPLICATIVE_OPERATOR').value
+        return this._BinaryExpression(
+            'PrimaryExpression',
+            'MULTIPLICATIVE_OPERATOR'
+        )
+    }
 
-            const right = this.PrimaryExpression()
+    _BinaryExpression(builderName, operatorToken) {
+        let left = this[builderName]();
+        
+        while(this._lookahead.type === operatorToken) {
+            const operator = this._eat(operatorToken).value
+
+            const right = this[builderName]()
 
             left = {
                 type: 'BinaryExpression',
@@ -109,9 +103,20 @@ class Parser {
 
         return left
     }
-
     PrimaryExpression() {
-        return this.Literal()
+        switch(this._lookahead.type){
+            case '(':
+                return this.ParenthesizedExpression()
+            default:
+                return this.Literal()
+        }
+    }
+
+    ParenthesizedExpression() {
+        this._eat('(')
+        const expression = this.Expression()
+        this._eat(')')
+        return expression
     }
 
     Literal() {

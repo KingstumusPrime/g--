@@ -8,7 +8,9 @@ const Spec = [
     // symbols
     [/^;/, ';'],
     [/^{/, '{'], 
-    [/^}/, '}'], 
+    [/^}/, '}'],
+    [/^\(/, '('],
+    [/^\)/, ')'],
     // operators
     [/^[+/-]/, 'ADDITIVE_OPERATOR'],
     [/^[*\/]/, 'MULTIPLICATIVE_OPERATOR'],  
