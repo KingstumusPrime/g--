@@ -68,7 +68,7 @@ class Parser {
 
     Expression() {
         switch(this._lookahead.type){
-            case 'ASSIGNMENT_OPERATOR':
+            case 'IDENTIFIER':
                 return this.AssignmentExpression()
             default:    
                 return this.AdditiveExpression()
@@ -76,16 +76,16 @@ class Parser {
     }
 
     AssignmentExpression() {
-        let left = "left"
+        let left = this.PrimaryExpression()
 
 
         while(this._lookahead.type === "ASSIGNMENT_OPERATOR") {
             const operator = this._eat("ASSIGNMENT_OPERATOR").value
 
-            const right = "right"
+            const right = this.Expression()
 
             left = {
-                type: 'BinaryExpression',
+                type: 'AssignmentExpression',
                 operator,
                 left,
                 right
@@ -94,6 +94,14 @@ class Parser {
 
 
         return left
+    }
+
+    Identifier() {
+        const name = this._eat('IDENTIFIER').value;
+        return {
+          type: 'Identifier',
+          name,
+        }
     }
 
     AdditiveExpression() {
@@ -133,10 +141,13 @@ class Parser {
         switch(this._lookahead.type){
             case '(':
                 return this.ParenthesizedExpression()
+            case 'IDENTIFIER':
+                return this.Identifier()
             default:
                 return this.Literal()
         }
     }
+
 
     ParenthesizedExpression() {
         this._eat('(')
@@ -149,26 +160,29 @@ class Parser {
         switch(this._lookahead.type) {
             case 'NUMBER':
                 return this.NumericLiteral()
+            case 'IDENTIFIER':
+                return this.Identifier()
             case 'STRING':
                 return this.StringLiteral()
         }
-        throw new SyntaxError('Literal: unexpected literal production')
+        throw new SyntaxError('Literal: unexpected literal production of type ' + this._lookahead.type )
     }
 
     NumericLiteral() {
         const token = this._eat('NUMBER')
         return {
             type: "NumericLiteral",
-            vale: Number(token.value)
+            value: Number(token.value)
         }
     }
 
-    
+
+
     StringLiteral() {
         const token = this._eat('STRING')
         return {
             type: "SringLiteral",
-            vale: token.value.slice(1,-1)
+            value: token.value.slice(1,-1)
         }
     }
     

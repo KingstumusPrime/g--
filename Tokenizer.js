@@ -14,7 +14,9 @@ const Spec = [
     // operators
     [/^[+/-]/, 'ADDITIVE_OPERATOR'],
     [/^[*\/]/, 'MULTIPLICATIVE_OPERATOR'],
-    [/=/, "ASSIGNMENT_OPERATOR"],
+    [/^=/, "ASSIGNMENT_OPERATOR"],
+    // Idnetifier
+    [/^[a-zA-Z_$][a-zA-Z\d$_]*/, "IDENTIFIER"],
     [/^\d+/, 'NUMBER'],
     [/^"[^]*"/, "STRING"],
     [/^'[^]*'/, "STRING"]

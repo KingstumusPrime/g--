@@ -6,10 +6,11 @@ const parser = new Parser()
 const tests = [require("./literals-test"),
                 require("./statement-list-text"),
                 require("./block-test"),
-                require("./math-tests")]
+                require("./math-tests"),
+                require("./assignment-test")]
 function exec() {
     const program = `
-    =;
+    yasta_12 = 1;
     `
     const ast = parser.parse(program)
 

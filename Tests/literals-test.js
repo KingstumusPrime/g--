@@ -4,7 +4,7 @@ module.exports = test => {
       body: [
         {
           type: 'ExpressionStatement',
-          expression: { type: 'NumericLiteral', vale: 42 }
+          expression: { type: 'NumericLiteral', value: 42 }
         }
       ]
     })
@@ -14,7 +14,7 @@ module.exports = test => {
       body: [
         {
           type: 'ExpressionStatement',
-          expression: { type: 'SringLiteral', vale: 'hello' }
+          expression: { type: 'SringLiteral', value: 'hello' }
         }
       ]
     })
@@ -24,7 +24,7 @@ module.exports = test => {
       body: [
         {
           type: 'ExpressionStatement',
-          expression: { type: 'SringLiteral', vale: 'hello' }
+          expression: { type: 'SringLiteral', value: 'hello' }
         }
       ]
     })

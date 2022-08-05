@@ -11,11 +11,11 @@ module.exports = test => {
                     operator: '+',
                     left: {
                         type: 'NumericLiteral',
-                        vale: 2
+                        value: 2
                     },
                     right: {
                         type: 'NumericLiteral',
-                        vale: 2
+                        value: 2
                     }
                 }
             }
@@ -35,16 +35,16 @@ module.exports = test => {
                         operator: '+',
                         left: {
                             type: 'NumericLiteral',
-                            vale: 3
+                            value: 3
                         },
                         right: {
                             type: 'NumericLiteral',
-                            vale: 2
+                            value: 2
                         }
                     },
                     right: {
                         type: 'NumericLiteral',
-                        vale: 2
+                        value: 2
                     }
                 }
             }
@@ -61,18 +61,18 @@ module.exports = test => {
                     operator: '+',
                     left: {
                         type: 'NumericLiteral',
-                        vale: 2
+                        value: 2
                     },
                     right: {
                         type: 'BinaryExpression',
                         operator: '*',
                         left: {
                             type: 'NumericLiteral',
-                            vale: 2
+                            value: 2
                         },
                         right: {
                             type: 'NumericLiteral',
-                            vale: 2
+                            value: 2
                         }
                     }
                 }
@@ -91,10 +91,10 @@ module.exports = test => {
               left: {
                 type: 'BinaryExpression',
                 operator: '+',
-                left: { type: 'NumericLiteral', vale: 2 },
-                right: { type: 'NumericLiteral', vale: 2 }
+                left: { type: 'NumericLiteral', value: 2 },
+                right: { type: 'NumericLiteral', value: 2 }
               },
-              right: { type: 'NumericLiteral', vale: 2 }
+              right: { type: 'NumericLiteral', value: 2 }
             }
           }
         ]
