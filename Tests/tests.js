@@ -9,8 +9,7 @@ const tests = [require("./literals-test"),
                 require("./math-tests")]
 function exec() {
     const program = `
-    "hello";
-    42;
+    =;
     `
     const ast = parser.parse(program)
 
@@ -22,6 +21,7 @@ function test(program, expected) {
     assert.deepEqual(ast, expected)
 }
 
+exec()
 tests.forEach(testRun => testRun(test))
 console.log('All assertions passed!')
 

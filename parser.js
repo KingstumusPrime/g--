@@ -67,7 +67,33 @@ class Parser {
     }
 
     Expression() {
-        return this.AdditiveExpression()
+        switch(this._lookahead.type){
+            case 'ASSIGNMENT_OPERATOR':
+                return this.AssignmentExpression()
+            default:    
+                return this.AdditiveExpression()
+        }
+    }
+
+    AssignmentExpression() {
+        let left = "left"
+
+
+        while(this._lookahead.type === "ASSIGNMENT_OPERATOR") {
+            const operator = this._eat("ASSIGNMENT_OPERATOR").value
+
+            const right = "right"
+
+            left = {
+                type: 'BinaryExpression',
+                operator,
+                left,
+                right
+            }
+        }
+
+
+        return left
     }
 
     AdditiveExpression() {
