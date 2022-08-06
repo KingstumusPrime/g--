@@ -1,3 +1,4 @@
+const { checkPrime } = require("crypto")
 const {Tokenizer} = require("./Tokenizer")
 
 class Parser {
@@ -36,10 +37,14 @@ class Parser {
                  return this.BlockStatement()
             case ';':
                 return this.EmptyStatement()
+            case 'PREFIX':
+                return this.VariableStatemnet()
             default:
                 return this.ExpressionStatement()
         }
     }
+
+    
     EmptyStatement() {
         this._eat(';')
         return {type: 'EmptyStatement'}
@@ -76,9 +81,9 @@ class Parser {
     }
 
     AssignmentExpression() {
-        let left = this.PrimaryExpression()
 
-
+        var left = this.PrimaryExpression()
+        
         while(this._lookahead.type === "ASSIGNMENT_OPERATOR") {
             const operator = this._eat("ASSIGNMENT_OPERATOR").value
 
@@ -103,6 +108,8 @@ class Parser {
           name,
         }
     }
+
+
 
     AdditiveExpression() {
         return this._BinaryExpression(
@@ -201,6 +208,48 @@ class Parser {
         this._lookahead = this._tokenizer.getNextToken()
 
         return token
+    }
+
+    VariableStatementInit(){
+        this._eat("PREFIX")
+        return this.VariableDeclarationList()
+    }
+
+    VariableDeclarationList(){
+        const DeclarationList = [this.VariableDeclaration()]
+
+        // while(this._lookahead != null && this._lookahead.type != "ASSIGNMENT_OPERATOR") {
+        //     this._eat(",")
+        //     DeclarationList.push(this.VariableDeclaration())
+        // }
+        return DeclarationList
+    }
+
+    VariableDeclaration() {
+        const id = this.Identifier()
+        if(this._lookahead.type == "ASSIGNMENT_OPERATOR"){
+            this._eat("ASSIGNMENT_OPERATOR")
+            var right = this.PrimaryExpression()
+        }
+        else{
+            var right = null
+        }
+
+        return {
+            type: "VariableDeclaration",
+            id: id,
+            init: right
+
+        }
+    }
+
+    VariableStatemnet(){
+        const variableStatement = this.VariableStatementInit();
+        this._eat(';');
+        return {
+            type: "VariableStatement",
+            declarations: variableStatement
+        };
     }
 }
 

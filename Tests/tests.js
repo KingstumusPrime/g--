@@ -7,10 +7,12 @@ const tests = [require("./literals-test"),
                 require("./statement-list-text"),
                 require("./block-test"),
                 require("./math-tests"),
-                require("./assignment-test")]
+                require("./assignment-test"),
+                require("./variable-test")
+                ]
 function exec() {
     const program = `
-    yasta_12 = 1;
+       let x;
     `
     const ast = parser.parse(program)
 
