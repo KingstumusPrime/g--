@@ -218,10 +218,10 @@ class Parser {
     VariableDeclarationList(){
         const DeclarationList = [this.VariableDeclaration()]
 
-        // while(this._lookahead != null && this._lookahead.type != "ASSIGNMENT_OPERATOR") {
-        //     this._eat(",")
-        //     DeclarationList.push(this.VariableDeclaration())
-        // }
+        while(this._lookahead != null && this._lookahead.type != "ASSIGNMENT_OPERATOR" && this._lookahead.type != ";") {
+            this._eat(",")
+            DeclarationList.push(this.VariableDeclaration())
+        }
         return DeclarationList
     }
 
