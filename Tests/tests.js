@@ -8,11 +8,20 @@ const tests = [require("./literals-test"),
                 require("./block-test"),
                 require("./math-tests"),
                 require("./assignment-test"),
-                require("./variable-test")
+                require("./variable-test"),
+                require("./if-test")
                 ]
 function exec() {
     const program = `
-       let x, y = 42;
+    "hello world";
+    123;
+    let x, y;
+    if (x) {
+        x = 1;
+    }
+    else if(y) {
+        x = 2;
+    }
     `
     const ast = parser.parse(program)
 

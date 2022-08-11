@@ -1,3 +1,1 @@
-
-                require("./variable-test")
-                ]
+let x = 100;

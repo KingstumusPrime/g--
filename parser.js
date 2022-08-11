@@ -39,8 +39,27 @@ class Parser {
                 return this.EmptyStatement()
             case 'PREFIX':
                 return this.VariableStatemnet()
+            case 'IF':
+                return this.IfStatement()
             default:
                 return this.ExpressionStatement()
+        }
+    }
+
+    IfStatement() {
+        this._eat("IF")
+        let test = this.ParenthesizedExpression()
+        let consequent = this.Statement()
+        var alternate = null
+        if(this._lookahead != null && this._lookahead.type == "ELSE" ){
+            this._eat("ELSE")
+            alternate = this.Statement()
+        }
+        return {
+            type: "IfStatement",
+            test: test,
+            consequent: consequent,
+            alternate: alternate
         }
     }
 

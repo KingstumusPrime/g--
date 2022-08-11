@@ -16,10 +16,12 @@ const Spec = [
     [/^[+/-]/, 'ADDITIVE_OPERATOR'],
     [/^[*\/]/, 'MULTIPLICATIVE_OPERATOR'],
     [/^=/, "ASSIGNMENT_OPERATOR"],
+    // Program Flow
+    [/^if/, "IF"],
+    [/^else/, "ELSE"],
     // Idnetifier
     [/^let/, "PREFIX"],
     [/^[a-zA-Z_$][a-zA-Z\d$_]*/, "IDENTIFIER"],
-
     [/^\d+/, 'NUMBER'],
     [/^"[^]*"/, "STRING"],
     [/^'[^]*'/, "STRING"]
