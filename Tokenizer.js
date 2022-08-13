@@ -19,12 +19,15 @@ const Spec = [
     // Program Flow
     [/^if/, "IF"],
     [/^else/, "ELSE"],
+    // Literals
+    [/^\d+/, 'NUMBER'],
+    [/^True/,"BOOL"],
+    [/^False/, "BOOL"],
+    [/^"[^]*"/, "STRING"],
+    [/^'[^]*'/, "STRING"],
     // Idnetifier
     [/^let/, "PREFIX"],
     [/^[a-zA-Z_$][a-zA-Z\d$_]*/, "IDENTIFIER"],
-    [/^\d+/, 'NUMBER'],
-    [/^"[^]*"/, "STRING"],
-    [/^'[^]*'/, "STRING"]
 ]
 
 

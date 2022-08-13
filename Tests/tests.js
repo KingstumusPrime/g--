@@ -2,6 +2,7 @@
 var assert = require("assert")
 const {Parser} = require('../parser')
 
+
 const parser = new Parser()
 const tests = [require("./literals-test"),
                 require("./statement-list-text"),
@@ -13,15 +14,7 @@ const tests = [require("./literals-test"),
                 ]
 function exec() {
     const program = `
-    "hello world";
-    123;
-    let x, y;
-    if (x) {
         x = 1;
-    }
-    else if(y) {
-        x = 2;
-    }
     `
     const ast = parser.parse(program)
 
@@ -34,6 +27,6 @@ function test(program, expected) {
 }
 
 exec()
-tests.forEach(testRun => testRun(test))
-console.log('All assertions passed!')
+// tests.forEach(testRun => testRun(test))
+// console.log('All assertions passed!')
 

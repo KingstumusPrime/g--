@@ -91,19 +91,15 @@ class Parser {
     }
 
     Expression() {
-        switch(this._lookahead.type){
-            case 'IDENTIFIER':
-                return this.AssignmentExpression()
-            default:    
-                return this.AdditiveExpression()
-        }
+        return this.AssignmentExpression()
     }
 
     AssignmentExpression() {
-
-        var left = this.PrimaryExpression()
-        
+        var left = this.AdditiveExpression()
         while(this._lookahead.type === "ASSIGNMENT_OPERATOR") {
+            if(left.type != "Identifier"){
+                throw console.error("EXPECTED TYPE OF IDENITIFER");
+            }
             const operator = this._eat("ASSIGNMENT_OPERATOR").value
 
             const right = this.Expression()
@@ -114,8 +110,8 @@ class Parser {
                 left,
                 right
             }
-        }
 
+        }
 
         return left
     }
@@ -186,8 +182,6 @@ class Parser {
         switch(this._lookahead.type) {
             case 'NUMBER':
                 return this.NumericLiteral()
-            case 'IDENTIFIER':
-                return this.Identifier()
             case 'STRING':
                 return this.StringLiteral()
         }
