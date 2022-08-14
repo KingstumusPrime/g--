@@ -14,7 +14,11 @@ const tests = [require("./literals-test"),
                 ]
 function exec() {
     const program = `
-        x = 1;
+        if(hasSword == True && failed == null || victory == True){
+            let victory = True;
+        }
+        else{
+        }
     `
     const ast = parser.parse(program)
 
@@ -27,6 +31,6 @@ function test(program, expected) {
 }
 
 exec()
-// tests.forEach(testRun => testRun(test))
-// console.log('All assertions passed!')
+tests.forEach(testRun => testRun(test))
+console.log('All assertions passed!')
 

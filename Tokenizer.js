@@ -13,18 +13,23 @@ const Spec = [
     [/^\)/, ')'],
     [/^\,/, ','],
     // operators
+    // Logical Expressions
+    [/^\|\||^&&|^and|^or/, "LOGICAL_OPERATOR"],
+    // equality
+    [/^!=|^==|^!==|^===/, "EQUALITY_OPERATOR"],
     [/^[+/-]/, 'ADDITIVE_OPERATOR'],
     [/^[*\/]/, 'MULTIPLICATIVE_OPERATOR'],
+    [/^[>/<]/, "REALATIONAL_OPERATOR"],
     [/^=/, "ASSIGNMENT_OPERATOR"],
     // Program Flow
     [/^if/, "IF"],
     [/^else/, "ELSE"],
     // Literals
     [/^\d+/, 'NUMBER'],
-    [/^True/,"BOOL"],
-    [/^False/, "BOOL"],
     [/^"[^]*"/, "STRING"],
     [/^'[^]*'/, "STRING"],
+    [/^True|False/, "BOOL"],
+    [/^null/, "NULL"],
     // Idnetifier
     [/^let/, "PREFIX"],
     [/^[a-zA-Z_$][a-zA-Z\d$_]*/, "IDENTIFIER"],

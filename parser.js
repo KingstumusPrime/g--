@@ -95,7 +95,7 @@ class Parser {
     }
 
     AssignmentExpression() {
-        var left = this.AdditiveExpression()
+        var left = this.LogicalExpression()
         while(this._lookahead.type === "ASSIGNMENT_OPERATOR") {
             if(left.type != "Identifier"){
                 throw console.error("EXPECTED TYPE OF IDENITIFER");
@@ -124,7 +124,35 @@ class Parser {
         }
     }
 
+    LogicalExpression(){
+        let left = this.EqualityExpression();
+        
+        while(this._lookahead.type === "LOGICAL_OPERATOR") {
+            const operator = this._eat("LOGICAL_OPERATOR").value
 
+            const right = this.Expression()
+
+            left = {
+                type: 'LogicalExpression',
+                operator,
+                left,
+                right
+            }
+        }
+        return left
+    }
+    EqualityExpression(){
+        return this._BinaryExpression(
+            "RealationalExpression",
+            "EQUALITY_OPERATOR"
+            )
+    }
+    RealationalExpression(){
+        return this._BinaryExpression(
+            "AdditiveExpression",
+            "REALATIONAL_OPERATOR"
+        )
+    }
 
     AdditiveExpression() {
         return this._BinaryExpression(
@@ -184,6 +212,10 @@ class Parser {
                 return this.NumericLiteral()
             case 'STRING':
                 return this.StringLiteral()
+            case 'BOOL':
+                return this.BooleanLiteral()
+            case 'NULL':
+                return this.NullLiteral()
         }
         throw new SyntaxError('Literal: unexpected literal production of type ' + this._lookahead.type )
     }
@@ -206,6 +238,21 @@ class Parser {
         }
     }
     
+    BooleanLiteral(){
+        const token = this._eat('BOOL')
+        return {
+            type: "BooleanLiteral",
+            value: token.value
+        }    
+    }
+
+    NullLiteral(){
+        const token = this._eat('NULL')
+        return {
+            type: "NullLiteral",
+            value: token.value
+        }    
+    }
 
     _eat(tokenType) {
         const token = this._lookahead
