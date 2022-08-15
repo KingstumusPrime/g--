@@ -1,4 +1,4 @@
-const { checkPrime } = require("crypto")
+
 const {Tokenizer} = require("./Tokenizer")
 
 class Parser {
@@ -41,8 +41,126 @@ class Parser {
                 return this.VariableStatemnet()
             case 'IF':
                 return this.IfStatement()
+            case 'ITERATION_STATEMENT':
+                return this.IterationStatment()
+            case "CONTINUE":
+                return this.ContinueStatment()
+            case "BREAK":
+                return this.BreakStatment()
+            case "FUNCTION":
+                return this.FunctionDecloration()
             default:
                 return this.ExpressionStatement()
+        }
+    }
+
+
+    FunctionDecloration(){
+        this._eat("FUNCTION")
+        const name = this.Identifier()
+        const params = this.Arguments()
+        const body = this.BlockStatement()
+        return {
+            id: name,
+            params: params,
+            body: body
+        } 
+    }
+
+    Arguments(){
+        this._eat("(")
+        var params = []
+        if(this._lookahead.type == "IDENTIFIER"){
+            params.push(this.VariableDeclaration())
+
+            while(this._lookahead != null && this._lookahead.type != ")" && this._lookahead.type != ";") {
+                this._eat(",")
+                params.push(this.VariableDeclaration())
+            }
+        }
+        this._eat(")")
+        return params
+    }
+
+    IterationStatment(){
+        switch(this._lookahead.value){
+            case "for":
+                return this.ForStatment()
+            case "do":
+                return this.DoWhileStatment()
+            case "while":
+                return this.WhileStatment() 
+        }
+    }
+
+    ForStatment(){
+        this._eat("ITERATION_STATEMENT")
+        this._eat("(")
+        const init = this.ForStatmentInit()
+        const test = this.Expression()
+        this._eat(';')
+        var update = null 
+        if(this._lookahead != null && this._lookahead.type != ")" ){
+            update = this.Expression()
+            this._eat(";")
+        }
+        this._eat(")")
+        const body = this.Statement()
+        return {
+            type: "ForStatment",
+            init: init,
+            test: test,
+            update: update,
+            body: body
+        }
+    }
+
+    ForStatmentInit(){
+        const init = this.VariableStatementInit()
+        this._eat(";")
+        return init
+    }
+
+    
+
+    WhileStatment(){
+        this._eat("ITERATION_STATEMENT")
+        let test = this.ParenthesizedExpression()
+        let body = this.Statement()
+        
+        return {
+            type: "WhileStatment",
+            test: test,
+            body: body
+        } 
+    }
+
+    DoWhileStatment(){
+        this._eat("ITERATION_STATEMENT")
+        let body = this.Statement()
+        this._eat("ITERATION_STATEMENT")
+        let test = this.ParenthesizedExpression()
+        this._eat(";")
+        return {
+            type: "DoWhileStatemnet",
+            body: body,
+            test: test
+        }
+    }
+
+    ContinueStatment(){
+        this._eat("CONTINUE")
+        this._eat(";")
+        return{
+            type: "ContinueStatment"
+        }
+    }
+
+    BreakStatment(){
+        this._eat("BREAK")
+        this._eat(";")
+        return{
+            type: "BreakStatment"
         }
     }
 
@@ -82,13 +200,16 @@ class Parser {
     }
 
     ExpressionStatement() {
-        const expression = this.Expression()
+
+        let expression = this.Expression()
         this._eat(';')
         return {
             type: "ExpressionStatement",
             expression
         }
     }
+
+
 
     Expression() {
         return this.AssignmentExpression()
@@ -163,9 +284,31 @@ class Parser {
 
     MultiplicativeExpression() {
         return this._BinaryExpression(
-            'PrimaryExpression',
+            'UnaryExpression',
             'MULTIPLICATIVE_OPERATOR'
         )
+    }
+    UnaryExpression(){
+
+        while(this._lookahead.type === "UNARY_OPERATOR" || this._lookahead.value == "-") {
+            if(this._lookahead.value == "-"){
+                this._lookahead.type = "UNARY_OPERATOR"
+    
+            }
+            var operator = this._eat("UNARY_OPERATOR").value
+        }
+
+        let argument = this.PrimaryExpression() 
+        if(operator){
+            return {
+                type: "UnaryExpression",
+                operator: operator,
+                argument: argument, 
+            }
+        }
+        else{
+            return argument
+        }
     }
 
     _BinaryExpression(builderName, operatorToken) {

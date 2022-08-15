@@ -13,6 +13,7 @@ const Spec = [
     [/^\)/, ')'],
     [/^\,/, ','],
     // operators
+    [/^!|^not/, "UNARY_OPERATOR"],
     // Logical Expressions
     [/^\|\||^&&|^and|^or/, "LOGICAL_OPERATOR"],
     // equality
@@ -24,11 +25,15 @@ const Spec = [
     // Program Flow
     [/^if/, "IF"],
     [/^else/, "ELSE"],
+    [/^for|^do|^while/, "ITERATION_STATEMENT"],
+    [/^continue/, "CONTINUE"],
+    [/^break/, "BREAK"],
+    [/^func/, "FUNCTION"],
     // Literals
     [/^\d+/, 'NUMBER'],
     [/^"[^]*"/, "STRING"],
     [/^'[^]*'/, "STRING"],
-    [/^True|False/, "BOOL"],
+    [/^True|^False/, "BOOL"],
     [/^null/, "NULL"],
     // Idnetifier
     [/^let/, "PREFIX"],

@@ -14,10 +14,8 @@ const tests = [require("./literals-test"),
                 ]
 function exec() {
     const program = `
-        if(hasSword == True && failed == null || victory == True){
-            let victory = True;
-        }
-        else{
+        func x(y = 20, z= 10){
+
         }
     `
     const ast = parser.parse(program)
