@@ -14,9 +14,7 @@ const tests = [require("./literals-test"),
                 ]
 function exec() {
     const program = `
-        func x(y = 20, z= 10){
-
-        }
+        x;
     `
     const ast = parser.parse(program)
 

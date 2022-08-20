@@ -29,6 +29,9 @@ const Spec = [
     [/^continue/, "CONTINUE"],
     [/^break/, "BREAK"],
     [/^func/, "FUNCTION"],
+    // oop
+    [/^class/, "CLASS"],
+    [/^from/, "FROM"],
     // Literals
     [/^\d+/, 'NUMBER'],
     [/^"[^]*"/, "STRING"],

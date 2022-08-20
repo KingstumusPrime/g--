@@ -49,8 +49,29 @@ class Parser {
                 return this.BreakStatment()
             case "FUNCTION":
                 return this.FunctionDecloration()
+            case "CLASS":
+                return this.ClassDecloration()
             default:
                 return this.ExpressionStatement()
+        }
+    }
+
+    
+    ClassDecloration(){
+        this._eat("CLASS")
+        const className = this.Identifier()
+        var superClass = null
+        if(this._lookahead.type == "FROM"){
+            this._eat("FROM")
+            superClass = this.Identifier()
+        }
+
+        const body = this.BlockStatement()
+        return {
+            type: "ClassDecloration",
+            name: className,
+            superclass: superClass ,
+            body: body
         }
     }
 
@@ -239,6 +260,7 @@ class Parser {
 
     Identifier() {
         const name = this._eat('IDENTIFIER').value;
+        if(this._lookahead.type)
         return {
           type: 'Identifier',
           name,
