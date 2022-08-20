@@ -49,6 +49,8 @@ class Parser {
                 return this.BreakStatment()
             case "FUNCTION":
                 return this.FunctionDecloration()
+            case "RETURN":
+                return this.ReturnStatement()
             case "CLASS":
                 return this.ClassDecloration()
             default:
@@ -56,25 +58,24 @@ class Parser {
         }
     }
 
-    
-    ClassDecloration(){
-        this._eat("CLASS")
-        const className = this.Identifier()
-        var superClass = null
-        if(this._lookahead.type == "FROM"){
-            this._eat("FROM")
-            superClass = this.Identifier()
-        }
+    ReturnStatement(){
+        this._eat("RETURN")
+        var params = []
 
-        const body = this.BlockStatement()
+        if(this._lookahead.type != ";"){
+            params.push(this.Expression())
+
+            while(this._lookahead != null && this._lookahead.type != ";") {
+                this._eat(",")
+                params.push(this.Expression())
+            }
+        }
+        this._eat(";")
         return {
-            type: "ClassDecloration",
-            name: className,
-            superclass: superClass ,
-            body: body
-        }
+                type: "ReturnStatment",
+                params: params
+        }    
     }
-
 
     FunctionDecloration(){
         this._eat("FUNCTION")
@@ -202,6 +203,24 @@ class Parser {
         }
     }
 
+
+    ClassDecloration(){
+        this._eat("CLASS")
+        const name = this.Identifier()
+        var superClass = null
+        if(this._lookahead != null && this._lookahead.type == "FROM"){
+            this._eat("FROM")
+            superClass = this.Identifier()
+        }
+        const body = this.BlockStatement()
+        
+        return {
+            type: "ClassDeclaration",
+            id: name,
+            superClass: superClass,
+            body: body
+        }
+    }
     
     EmptyStatement() {
         this._eat(';')
@@ -255,12 +274,24 @@ class Parser {
 
         }
 
+        if(this._lookahead.type == "("){
+            if(left.type != "Identifier"){
+                throw console.error("EXPECTED TYPE OF FUNCTION IDENITIFER");
+            }
+            const args = this.Arguments()
+            left = {
+                type: "CallExpressionStatement",
+                callee: left,
+                arguments: args,
+                
+            }
+        }
+
         return left
     }
 
     Identifier() {
         const name = this._eat('IDENTIFIER').value;
-        if(this._lookahead.type)
         return {
           type: 'Identifier',
           name,
@@ -306,10 +337,38 @@ class Parser {
 
     MultiplicativeExpression() {
         return this._BinaryExpression(
-            'UnaryExpression',
+            'CallExpression',
             'MULTIPLICATIVE_OPERATOR'
         )
     }
+
+    CallExpression(){
+        let left = this.UnaryExpression();
+        var params = []
+        if(this._lookahead.type === "(") {
+            this._eat("(")
+            if(this._lookahead.type != ")"){
+                params.push(this.LogicalExpression())
+                while(this._lookahead.type != ")"){
+                    this._eat(",")
+                    params.push(this.LogicalExpression())
+                }
+            }
+            this._eat(')')
+            
+            return {
+                type: "CallExpression",
+                callee: left,
+                arguments: params
+
+            }
+                
+        }
+
+
+        return left
+    }
+
     UnaryExpression(){
 
         while(this._lookahead.type === "UNARY_OPERATOR" || this._lookahead.value == "-") {
@@ -422,6 +481,12 @@ class Parser {
     _eat(tokenType) {
         const token = this._lookahead
 
+        // if(tokenType == ';'){
+        // // if(token.type)
+        // //     if(this._lookahead.type != ';' ){
+        // //         token.type = ';'
+        // //     }
+
         if(token == null) {
             throw new SyntaxError( 'unexpected end of input, expected: ${tokenType}')
         }
@@ -429,8 +494,10 @@ class Parser {
         if(token.type !== tokenType) {
             throw new SyntaxError( 'Unexpected end of token:' + token.value + ', expected:' + tokenType)
         }
-
         this._lookahead = this._tokenizer.getNextToken()
+        
+
+
 
         return token
     }
