@@ -5,14 +5,16 @@ import static vm.Bytecode.*;
 
 public class test {
     static int[] hello = {
-        ICONST, 99,
-        GSTORE, 0,
-        GLOAD, 0,
-        PRINT,
-        HALT
+        LOAD, -3,
+        ICONST, 2,
+        ILT,
+        BRF, 10,
+        ICONST, 1,
     };
     public static void main(String[] args) {
-        VM vm = new VM(hello, 0, 0);
+        int datasize = 1;
+        int mainip = 0;
+        VM vm = new VM(hello, mainip, datasize);
         vm.trace = true;
         vm.cpu();
     }
