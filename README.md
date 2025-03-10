@@ -7,3 +7,15 @@ This was one of my super early projects, but it taught me a ton. It was original
 ## JavaScript Parser
 
 This is the most advanced proejct and is stored in the root directory with the unit test in the /Tests folder. I started it by watching an old tutorial where only the first few episodes were free. After digging around and finding a list of the episode names I used those to figure out what to do next. Meaning almost all the code was written from scratch. While I hated dealing with the missing episodes at the time, looking back it made the project much more impressive and taught me way more than watching videos would have.
+
+## Python Lexer
+
+This was another little project I made I cannot remember the exact time I made it but I am pretty sure it was the first thing I made. Its not very impressive but it does read the code from a file which was pretty cool to me at the time.
+
+## C++ VM
+
+After making the lexer I decided I wanted my langauge to run off of a VM like Java so I decided to write the VM in C++ found in /vm. At the time I was mixing way to many languages which is probably why I stopped working on the project but this VM is pretty fun of a project. At the time I only knew of stack based machines so it has zero registers. This was my first big exposure to assembly langauge that I fully understood.
+
+## Java VM
+
+This one is found in /vm/vm and is definitally the least impressive project here. 
