@@ -7,7 +7,18 @@ namespace bytecodeinterpreter {
         EXIT,
         ADD_INT,
         PUSH_INT,
+        POP_INT,
         PRINT_INT,
+        CMP_INT_LT,
+        LOAD_INT,
+        STORE_INT,
+        JMP,
+        JMP_FALSE,
+        JMP_TRUE,
+        LOAD_INT_BP_REL,
+        STORE_INT_BP_REL,
+        CALL,
+        RETURN,
         NUM_INSTRUCTIONS,
     };
 
@@ -16,6 +27,6 @@ namespace bytecodeinterpreter {
     public:
         Opcode opcode;
         uint8_t p1;
-        uint16_t p2;
+        int16_t p2;
     };
 }
