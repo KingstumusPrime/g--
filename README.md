@@ -4,3 +4,6 @@ This was one of my super early projects, but it taught me a ton. It was original
 
 # Overview
 
+## JavaScript Parser
+
+This is the most advanced proejct and is stored in the root directory with the unit test in the /Tests folder. I started it by watching an old tutorial where only the first few episodes were free. After digging around and finding a list of the episode names I used those to figure out what to do next. Meaning almost all the code was written from scratch. While I hated dealing with the missing episodes at the time, looking back it made the project much more impressive and taught me way more than watching videos would have.
