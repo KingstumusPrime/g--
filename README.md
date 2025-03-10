@@ -18,4 +18,4 @@ After making the lexer I decided I wanted my langauge to run off of a VM like Ja
 
 ## Java VM
 
-This one is found in /vm/vm and is definitally the least impressive project here. I found a clip of a collage lecture and followed it without understanding anything about Java, assembly, or the stack (in a stack based machine). While its unimpressive it inspired me to write my [own version in c++](https://github.com/KingstumusPrime/g--/edit/root/README.md#c-vm) from scratch. In addition it was my first exposure to assembly, not the first one I understood but the first.
+This one is found in /vm/vm and is definitally the least impressive project here. I found a clip of a collage lecture and followed it without understanding anything about Java, assembly, or the stack (in a stack based machine). While its unimpressive it inspired me to write my [own version in c++](https://github.com/KingstumusPrime/g--/tree/root?tab=readme-ov-file#c-vm) from scratch. In addition it was my first exposure to assembly, not the first one I understood but the first.
